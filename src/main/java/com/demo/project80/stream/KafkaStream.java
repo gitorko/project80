@@ -42,7 +42,7 @@ public class KafkaStream implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         StreamsBuilder streamsBuilder = new StreamsBuilder();
         KStream<String, User> streamOfUsers = streamsBuilder
                 .stream(TOPIC_NAME, Consumed.with(STRING_SERDE, new JsonSerde<>(User.class)));
