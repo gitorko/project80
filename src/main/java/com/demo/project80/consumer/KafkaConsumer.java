@@ -1,34 +1,26 @@
 package com.demo.project80.consumer;
 
-import java.util.concurrent.TimeUnit;
-
+import com.demo.project80.pojo.User;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.kafka.annotation.KafkaListener;
 
 @SpringBootApplication
 @Slf4j
-public class KafkaConsumer implements ApplicationRunner {
+public class KafkaConsumer {
 
-    private static final String TOPIC_NAME = "mytopic";
+    @SneakyThrows
+    @KafkaListener(id = "my-client-app", topics = "${topic.name}")
+    public void topicConsumer(ConsumerRecord<String, User> consumerRecord) {
+        User user = consumerRecord.value();
+        log.info("Received User : {}", user);
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(KafkaConsumer.class, args);
     }
 
-    @KafkaListener(topics = TOPIC_NAME, groupId = "test-group")
-    public void topicConsumer(ConsumerRecord<?, ?> userRecord) {
-        log.info("Received : {} ", userRecord);
-    }
-
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
-        while (true) {
-            TimeUnit.SECONDS.sleep(60);
-        }
-    }
 }

@@ -1,0 +1,19 @@
+spring:
+  main:
+    banner-mode: "off"
+    web-application-type: none
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      client-id: my-client-consumer
+      group-id: group-01
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: com.demo.project80.converter.MessageDeserializer
+    producer:
+      client-id: my-client-app
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: com.demo.project80.converter.MessageSerializer
+      #value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+topic:
+  name: mytopic.000
